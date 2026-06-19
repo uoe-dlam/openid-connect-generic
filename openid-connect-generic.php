@@ -185,7 +185,7 @@ class OpenID_Connect_Generic
 
 		$this->upgrade();
 
-		if (is_admin()) {
+		if (is_admin() && is_main_site()) {
 			OpenID_Connect_Generic_Settings_Page::register($this->settings, $this->logger);
 			add_action('admin_notices', array($this, 'admin_notice_jwks_required'));
 		}
