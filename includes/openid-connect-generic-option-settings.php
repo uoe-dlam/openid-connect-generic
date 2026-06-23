@@ -1,5 +1,4 @@
 <?php
-
 /**
  * WordPress options handling class.
  *
@@ -64,8 +63,8 @@
  * @property bool $enable_logging           The flag to enable/disable logging.
  * @property int  $log_limit                The maximum number of log entries to keep.
  */
-class OpenID_Connect_Generic_Option_Settings
-{
+class OpenID_Connect_Generic_Option_Settings {
+
 
 	/**
 	 * WordPress option name/key.
@@ -113,6 +112,7 @@ class OpenID_Connect_Generic_Option_Settings
 		'enable_logging'            => 'OIDC_ENABLE_LOGGING',
 		'log_limit'                 => 'OIDC_LOG_LIMIT',
 		'email_format'              => 'OIDC_ENDPOINT_EMAIL_FORMAT',
+		'alternate_redirect_uri'    => 'OIDC_ALTERNATE_REDIRECT_URI',
 	);
 
 	/**
@@ -121,22 +121,21 @@ class OpenID_Connect_Generic_Option_Settings
 	 * @param array<mixed> $default_settings  The default plugin settings values.
 	 * @param bool         $granular_defaults The granular defaults.
 	 */
-	public function __construct($default_settings = array(), $granular_defaults = true)
-	{
+	public function __construct( $default_settings = array(), $granular_defaults = true ) {
 		$this->default_settings = $default_settings;
 		$this->values = array();
 
-		$this->values = (array) get_option(self::OPTION_NAME, $this->default_settings);
+		$this->values = (array) get_option( self::OPTION_NAME, $this->default_settings );
 
 		// For each defined environment variable/constant be sure the settings key is set.
-		foreach ($this->environment_settings as $key => $constant) {
-			if (defined($constant)) {
-				$this->__set($key, constant($constant));
+		foreach ( $this->environment_settings as $key => $constant ) {
+			if ( defined( $constant ) ) {
+				$this->__set( $key, constant( $constant ) );
 			}
 		}
 
-		if ($granular_defaults) {
-			$this->values = array_replace_recursive($this->default_settings, $this->values);
+		if ( $granular_defaults ) {
+			$this->values = array_replace_recursive( $this->default_settings, $this->values );
 		}
 	}
 
@@ -147,10 +146,9 @@ class OpenID_Connect_Generic_Option_Settings
 	 *
 	 * @return mixed
 	 */
-	public function __get($key)
-	{
-		if (isset($this->values[$key])) {
-			return $this->values[$key];
+	public function __get( $key ) {
+		if ( isset( $this->values[ $key ] ) ) {
+			return $this->values[ $key ];
 		}
 	}
 
@@ -162,9 +160,8 @@ class OpenID_Connect_Generic_Option_Settings
 	 *
 	 * @return void
 	 */
-	public function __set($key, $value)
-	{
-		$this->values[$key] = $value;
+	public function __set( $key, $value ) {
+		$this->values[ $key ] = $value;
 	}
 
 	/**
@@ -174,9 +171,8 @@ class OpenID_Connect_Generic_Option_Settings
 	 *
 	 * @return bool
 	 */
-	public function __isset($key)
-	{
-		return isset($this->values[$key]);
+	public function __isset( $key ) {
+		return isset( $this->values[ $key ] );
 	}
 
 	/**
@@ -186,9 +182,8 @@ class OpenID_Connect_Generic_Option_Settings
 	 *
 	 * @return void
 	 */
-	public function __unset($key)
-	{
-		unset($this->values[$key]);
+	public function __unset( $key ) {
+		unset( $this->values[ $key ] );
 	}
 
 	/**
@@ -196,8 +191,7 @@ class OpenID_Connect_Generic_Option_Settings
 	 *
 	 * @return array
 	 */
-	public function get_values()
-	{
+	public function get_values() {
 		return $this->values;
 	}
 
@@ -206,8 +200,7 @@ class OpenID_Connect_Generic_Option_Settings
 	 *
 	 * @return string
 	 */
-	public function get_option_name()
-	{
+	public function get_option_name() {
 		return self::OPTION_NAME;
 	}
 
@@ -216,16 +209,15 @@ class OpenID_Connect_Generic_Option_Settings
 	 *
 	 * @return void
 	 */
-	public function save()
-	{
+	public function save() {
 
 		// For each defined environment variable/constant be sure it isn't saved to the database.
-		foreach ($this->environment_settings as $key => $constant) {
-			if (defined($constant)) {
-				$this->__unset($key);
+		foreach ( $this->environment_settings as $key => $constant ) {
+			if ( defined( $constant ) ) {
+				$this->__unset( $key );
 			}
 		}
 
-		update_option(self::OPTION_NAME, $this->values);
+		update_option( self::OPTION_NAME, $this->values );
 	}
 }
