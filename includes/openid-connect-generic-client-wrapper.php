@@ -19,6 +19,7 @@
  */
 class OpenID_Connect_Generic_Client_Wrapper {
 
+
 	/**
 	 * The user redirect cookie key.
 	 *
@@ -131,8 +132,10 @@ class OpenID_Connect_Generic_Client_Wrapper {
 	 * @return void
 	 */
 	public function alternate_redirect_uri_parse_request( $query ) {
-		if ( isset( $query->query_vars['openid-connect-authorize'] ) &&
-			 '1' === $query->query_vars['openid-connect-authorize'] ) {
+		if (
+			isset( $query->query_vars['openid-connect-authorize'] ) &&
+			'1' === $query->query_vars['openid-connect-authorize']
+		) {
 			$this->authentication_request_callback();
 			exit;
 		}
@@ -329,8 +332,8 @@ class OpenID_Connect_Generic_Client_Wrapper {
 		// Redirect user back to login page.
 		wp_redirect(
 			wp_login_url() .
-			'?login-error=' . $error->get_error_code() .
-			'&message=' . urlencode( $error->get_error_message() )
+				'?login-error=' . $error->get_error_code() .
+				'&message=' . urlencode( $error->get_error_message() )
 		);
 		exit;
 	}
@@ -602,7 +605,7 @@ class OpenID_Connect_Generic_Client_Wrapper {
 		// Default redirect to the homepage.
 		$redirect_url = home_url();
 		// Redirect user according to redirect set in state.
-		$state_object = get_transient( 'openid-connect-generic-state--' . $state );
+		$state_object = get_site_transient( 'openid-connect-generic-state--' . $state );
 		// Get the redirect URL stored with the corresponding authentication request state.
 		if ( ! empty( $state_object ) && ! empty( $state_object[ $state ] ) && ! empty( $state_object[ $state ]['redirect_to'] ) ) {
 			$redirect_url = $state_object[ $state ]['redirect_to'];
@@ -883,8 +886,10 @@ class OpenID_Connect_Generic_Client_Wrapper {
 		/**
 		 * If there are no aggregated claims, it is over.
 		 */
-		if ( ! array_key_exists( '_claim_names', $userinfo ) ||
-			! array_key_exists( '_claim_sources', $userinfo ) ) {
+		if (
+			! array_key_exists( '_claim_names', $userinfo ) ||
+			! array_key_exists( '_claim_sources', $userinfo )
+		) {
 			return false;
 		}
 		$claim_src_ptr = $userinfo['_claim_names'];
@@ -916,8 +921,7 @@ class OpenID_Connect_Generic_Client_Wrapper {
 		if ( ! empty( $this->settings->endpoint_jwks ) ) {
 			// Use configured issuer if provided, otherwise derive from endpoint_login.
 			$issuer = ! empty( $this->settings->issuer ) ?
-				$this->settings->issuer :
-				( ! empty( $this->settings->endpoint_login ) ? $this->client->get_issuer_from_endpoint( $this->settings->endpoint_login ) : '' );
+				$this->settings->issuer : ( ! empty( $this->settings->endpoint_login ) ? $this->client->get_issuer_from_endpoint( $this->settings->endpoint_login ) : '' );
 
 			// Use JWT validator for secure signature verification.
 			$jwt_validator = new OpenID_Connect_Generic_JWT_Validator(
@@ -950,7 +954,7 @@ class OpenID_Connect_Generic_Client_Wrapper {
 		);
 
 		// Legacy JWT decoding without signature verification (INSECURE).
-		list ( $header, $body, $rest ) = explode( '.', $jwt, 3 );
+		list($header, $body, $rest) = explode( '.', $jwt, 3 );
 		$body_str = base64_decode( $body, false );
 		if ( ! $body_str ) {
 			return false;

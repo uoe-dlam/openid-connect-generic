@@ -19,6 +19,7 @@
  */
 class OpenID_Connect_Generic_Client {
 
+
 	/**
 	 * The OIDC/oAuth client ID.
 	 *
@@ -473,7 +474,7 @@ class OpenID_Connect_Generic_Client {
 		// Allow storing more data with the state. Eg. to identify user relationships.
 		$state_value = apply_filters( 'openid-connect-generic-new-state-value', $state_value, $this );
 
-		set_transient( 'openid-connect-generic-state--' . $state, $state_value, $this->state_time_limit );
+		set_site_transient( 'openid-connect-generic-state--' . $state, $state_value, $this->state_time_limit );
 
 		return $state;
 	}
@@ -494,7 +495,7 @@ class OpenID_Connect_Generic_Client {
 			$state_found = false;
 		}
 
-		$valid = get_transient( 'openid-connect-generic-state--' . $state );
+		$valid = get_site_transient( 'openid-connect-generic-state--' . $state );
 
 		if ( ! $valid && $state_found ) {
 			do_action( 'openid-connect-generic-state-expired', $state );
@@ -530,8 +531,9 @@ class OpenID_Connect_Generic_Client {
 		 * Ensure 2 specific items exist with the token response in order
 		 * to proceed with confidence:  id_token and token_type == 'Bearer'
 		 */
-		if ( ! isset( $token_response['id_token'] ) ||
-			 ! isset( $token_response['token_type'] ) || strcasecmp( $token_response['token_type'], 'Bearer' )
+		if (
+			! isset( $token_response['id_token'] ) ||
+			! isset( $token_response['token_type'] ) || strcasecmp( $token_response['token_type'], 'Bearer' )
 		) {
 			return new WP_Error( 'invalid-token-response', 'Invalid token response', $token_response );
 		}
@@ -689,8 +691,7 @@ class OpenID_Connect_Generic_Client {
 
 		// Validate issuer claim if configured or endpoint_login is available.
 		$expected_issuer = ! empty( $this->issuer ) ?
-			$this->issuer :
-			( ! empty( $this->endpoint_login ) ? $this->get_issuer_from_endpoint( $this->endpoint_login ) : '' );
+			$this->issuer : ( ! empty( $this->endpoint_login ) ? $this->get_issuer_from_endpoint( $this->endpoint_login ) : '' );
 
 		if ( ! empty( $expected_issuer ) ) {
 			if ( ! isset( $id_token_claim['iss'] ) ) {
