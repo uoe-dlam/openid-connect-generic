@@ -115,6 +115,7 @@ class OpenID_Connect_Generic_Option_Settings {
 		'email_format'              => 'OIDC_ENDPOINT_EMAIL_FORMAT',
 		'alternate_redirect_uri'    => 'OIDC_ALTERNATE_REDIRECT_URI',
 		'identity_key'              => 'OIDC_IDENTITY_KEY',
+		'identify_with_username'    => 'OIDC_IDENTIFY_WITH_USERNAME',
 	);
 
 	/**

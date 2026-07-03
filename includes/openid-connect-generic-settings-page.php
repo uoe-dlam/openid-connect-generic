@@ -387,6 +387,7 @@ class OpenID_Connect_Generic_Settings_Page {
 				'title'       => __( 'Identify with User Name', 'daggerhart-openid-connect-generic' ),
 				'description' => __( 'If checked, the user\'s identity will be determined by the user name instead of the email address.', 'daggerhart-openid-connect-generic' ),
 				'type'        => 'checkbox',
+				'disabled'    => defined( 'OIDC_IDENTIFY_WITH_USERNAME' ),
 				'section'     => 'client_settings',
 			),
 			'state_time_limit'     => array(

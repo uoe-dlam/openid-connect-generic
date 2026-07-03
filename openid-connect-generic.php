@@ -449,7 +449,7 @@ class OpenID_Connect_Generic {
 				'nickname_key'           => 'preferred_username',
 				'email_format'           => defined( 'OIDC_ENDPOINT_EMAIL_FORMAT' ) ? OIDC_ENDPOINT_EMAIL_FORMAT : '{email}',
 				'displayname_format'     => '',
-				'identify_with_username' => false,
+				'identify_with_username' => defined( 'OIDC_IDENTIFY_WITH_USERNAME' ) ? OIDC_IDENTIFY_WITH_USERNAME : true,
 				'state_time_limit'       => 180,
 
 				// Plugin settings.
