@@ -630,7 +630,7 @@ class OpenID_Connect_Generic_Settings_Page {
 	 * @return void
 	 */
 	public function client_settings_description() {
-		esc_html_e( 'Enter your OpenID Connect identity provider settings as the enviromental variables. Only some settings can be changed here.', 'daggerhart-openid-connect-generic' );
+		esc_html_e( 'Enter your OpenID Connect identity provider settings as the enviromental variables. Only some settings can be changed here. Client Secret Key is not displayed for the security purposes.', 'daggerhart-openid-connect-generic' );
 	}
 
 	/**
