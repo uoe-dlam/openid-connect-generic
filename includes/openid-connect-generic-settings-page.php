@@ -505,11 +505,6 @@ class OpenID_Connect_Generic_Settings_Page {
 		<div class="wrap">
 			<h2><?php print esc_html( get_admin_page_title() ); ?></h2>
 
-			<?php
-			// Render discovery document import form.
-			$this->render_discovery_form();
-			?>
-
 			<form method="post" action="options.php">
 				<?php
 				settings_fields( $this->settings_field_group );
@@ -635,7 +630,7 @@ class OpenID_Connect_Generic_Settings_Page {
 	 * @return void
 	 */
 	public function client_settings_description() {
-		esc_html_e( 'Enter your OpenID Connect identity provider settings.', 'daggerhart-openid-connect-generic' );
+		esc_html_e( 'Enter your OpenID Connect identity provider settings as the enviromental variables. Only some settings can be changed here.', 'daggerhart-openid-connect-generic' );
 	}
 
 	/**
@@ -880,64 +875,5 @@ class OpenID_Connect_Generic_Settings_Page {
 			),
 			'success'
 		);
-	}
-
-	/**
-	 * Render the discovery document import form.
-	 *
-	 * Outputs HTML form for importing configuration from discovery document.
-	 * Collapsed by default if endpoint_login is already configured.
-	 *
-	 * @return void
-	 */
-	private function render_discovery_form() {
-		// Auto-expand if plugin is not yet configured.
-		$is_configured = ! empty( $this->settings->endpoint_login );
-		$open_attribute = $is_configured ? '' : ' open';
-		?>
-		<details<?php echo esc_attr( $open_attribute ); ?> class="oidc-discovery-section">
-			<summary class="oidc-discovery-summary">
-				⚡ <?php esc_html_e( 'Quick Setup: Import from Discovery Document', 'daggerhart-openid-connect-generic' ); ?>
-			</summary>
-			<div class="notice notice-info inline oidc-discovery-content">
-				<p>
-					<?php esc_html_e( 'Auto-populate endpoint settings from your identity provider\'s OpenID Connect discovery document. After loading, review the populated fields below and click "Save Changes" to apply.', 'daggerhart-openid-connect-generic' ); ?>
-				</p>
-				<form method="post" action="">
-					<?php wp_nonce_field( 'oidc_discovery_import', 'oidc_discovery_nonce' ); ?>
-					<table class="form-table">
-						<tr>
-							<th scope="row">
-								<label for="oidc_discovery_url">
-									<?php esc_html_e( 'Discovery URL', 'daggerhart-openid-connect-generic' ); ?>
-								</label>
-							</th>
-							<td>
-								<input
-									type="url"
-									id="oidc_discovery_url"
-									name="oidc_discovery_url"
-									class="regular-text oidc-discovery-url-input"
-									placeholder="https://your-idp.com/.well-known/openid-configuration" />
-								<p class="description">
-									<?php esc_html_e( 'Enter your identity provider\'s OpenID Connect discovery endpoint URL.', 'daggerhart-openid-connect-generic' ); ?>
-									<br>
-									<strong><?php esc_html_e( 'Examples:', 'daggerhart-openid-connect-generic' ); ?></strong>
-									<br>
-									• Auth0: <code>https://{tenant}.{region}.auth0.com/.well-known/openid-configuration</code>
-									<br>
-									• Keycloak: <code>https://{domain}/realms/{realm}/.well-known/openid-configuration</code>
-									<br>
-									• Okta: <code>https://{domain}/.well-known/openid-configuration</code>
-								</p>
-							</td>
-						</tr>
-					</table>
-					<?php submit_button( __( 'Load Configuration', 'daggerhart-openid-connect-generic' ), 'secondary', 'oidc_discovery_submit', false ); ?>
-				</form>
-			</div>
-			</details>
-			<hr class="oidc-discovery-separator">
-		<?php
 	}
 }
