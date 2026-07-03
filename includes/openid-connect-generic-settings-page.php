@@ -255,13 +255,13 @@ class OpenID_Connect_Generic_Settings_Page {
 				'disabled'    => defined( 'OIDC_CLIENT_ID' ),
 				'section'     => 'client_settings',
 			),
-			'client_secret'     => array(
-				'title'       => __( 'Client Secret Key', 'daggerhart-openid-connect-generic' ),
-				'description' => __( 'Arbitrary secret key the server expects from this client. Can be anything, but should be very unique.', 'daggerhart-openid-connect-generic' ),
-				'type'        => 'text',
-				'disabled'    => defined( 'OIDC_CLIENT_SECRET' ),
-				'section'     => 'client_settings',
-			),
+			// 'client_secret'     => array(
+			// 'title'       => __( 'Client Secret Key', 'daggerhart-openid-connect-generic' ),
+			// 'description' => __( 'Arbitrary secret key the server expects from this client. Can be anything, but should be very unique.', 'daggerhart-openid-connect-generic' ),
+			// 'type'        => 'text',
+			// 'disabled'    => defined( 'OIDC_CLIENT_SECRET' ),
+			// 'section'     => 'client_settings',
+			// ),
 			'scope'             => array(
 				'title'       => __( 'OpenID Scope', 'daggerhart-openid-connect-generic' ),
 				'description' => __( 'Space separated list of scopes this client should access.', 'daggerhart-openid-connect-generic' ),
