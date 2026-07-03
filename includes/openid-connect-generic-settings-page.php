@@ -244,6 +244,7 @@ class OpenID_Connect_Generic_Settings_Page {
 				'description' => __( 'Customize the text shown on the OpenID Connect login button. Leave empty to use the default text.', 'daggerhart-openid-connect-generic' ),
 				'example'     => 'Login with Single Sign-On',
 				'type'        => 'text',
+				'disabled'    => defined( 'OIDC_LOGIN_BUTTON_TEXT' ),
 				'section'     => 'client_settings',
 			),
 			'client_id'         => array(
