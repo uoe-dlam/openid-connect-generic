@@ -38,3 +38,4 @@ defined( 'OIDC_ACR_VALUES' ) || define( 'OIDC_ACR_VALUES', '' );
 defined( 'OIDC_ENABLE_LOGGING' ) || define( 'OIDC_ENABLE_LOGGING', 0 );
 defined( 'OIDC_LOG_LIMIT' ) || define( 'OIDC_LOG_LIMIT', 1000 );
 defined( 'OIDC_ALTERNATE_REDIRECT_URI' ) || define( 'OIDC_ALTERNATE_REDIRECT_URI', 0 );
+defined( 'OIDC_IDENTITY_KEY' ) || define( 'OIDC_IDENTITY_KEY', 'unique_name' );

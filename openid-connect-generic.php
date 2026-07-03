@@ -445,7 +445,7 @@ class OpenID_Connect_Generic {
 				'no_sslverify'           => 0,
 				'http_request_timeout'   => 5,
 				'allow_internal_idp'     => 0,
-				'identity_key'           => 'preferred_username',
+				'identity_key'           => defined( 'OIDC_IDENTITY_KEY' ) ? OIDC_IDENTITY_KEY : 'unique_name',
 				'nickname_key'           => 'preferred_username',
 				'email_format'           => defined( 'OIDC_ENDPOINT_EMAIL_FORMAT' ) ? OIDC_ENDPOINT_EMAIL_FORMAT : '{email}',
 				'displayname_format'     => '',
