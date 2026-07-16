@@ -194,5 +194,6 @@ module.exports = function (grunt) {
 	grunt.registerTask('readme', ['wp_readme_to_markdown']);
 	grunt.registerTask('build', ['gitinfo', 'i18n', 'readme']);
 	grunt.registerTask('release', ['checkbranch:HEAD', 'checkrepo', 'gitinfo', 'checktextdomain', 'clean', 'shell:composer', 'copy']);
+  grunt.registerTask('build-dist', ['clean', 'shell:composer', 'copy']);
 
 };

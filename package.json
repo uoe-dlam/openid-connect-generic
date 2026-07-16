@@ -46,6 +46,7 @@
     "check:licenses": "wp-scripts check-licenses",
     "i18n:check": "npm run grunt checktextdomain",
     "i18n:make": "npm run grunt i18n",
-    "readme": "npm run grunt readme"
+    "readme": "npm run grunt readme",
+    "build-dist": "npm run grunt build-dist"
   }
 }
