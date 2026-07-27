@@ -81,6 +81,8 @@ Notes
  */
 class OpenID_Connect_Generic {
 
+
+
 	/**
 	 * Singleton instance of self
 	 *
@@ -181,7 +183,7 @@ class OpenID_Connect_Generic {
 
 		$this->upgrade();
 
-		if ( is_admin() ) {
+		if ( is_admin() && is_main_site() ) {
 			OpenID_Connect_Generic_Settings_Page::register( $this->settings, $this->logger );
 			add_action( 'admin_notices', array( $this, 'admin_notice_jwks_required' ) );
 		}
@@ -195,7 +197,7 @@ class OpenID_Connect_Generic {
 	 * @return string
 	 */
 	public function get_redirect_uri( OpenID_Connect_Generic_Option_Settings $settings ) {
-		$redirect_uri = admin_url( 'admin-ajax.php?action=openid-connect-authorize' );
+		$redirect_uri = get_admin_url( get_main_site_id() ) . 'admin-ajax.php?action=openid-connect-authorize';
 
 		if ( $settings->alternate_redirect_uri ) {
 			$redirect_uri = site_url( '/openid-connect-authorize' );
@@ -234,7 +236,8 @@ class OpenID_Connect_Generic {
 				! defined( 'DOING_AJAX' ) ||
 				! boolval( constant( 'DOING_AJAX' ) ) ||
 				! isset( $_GET['action'] ) ||
-				'openid-connect-authorize' != $_GET['action'] ) {
+				'openid-connect-authorize' != $_GET['action']
+			) {
 				auth_redirect();
 			}
 		}
@@ -348,7 +351,7 @@ class OpenID_Connect_Generic {
 		if ( ! empty( $states ) ) {
 			foreach ( $states as $state ) {
 				$transient = str_replace( '_transient_', '', $state );
-				get_transient( $transient );
+				get_site_transient( $transient );
 			}
 		}
 	}
@@ -425,7 +428,7 @@ class OpenID_Connect_Generic {
 			array(
 				// OAuth client settings.
 				'login_type'           => defined( 'OIDC_LOGIN_TYPE' ) ? OIDC_LOGIN_TYPE : 'button',
-				'login_button_text'    => '',
+				'login_button_text'    => defined( 'OIDC_LOGIN_BUTTON_TEXT' ) ? OIDC_LOGIN_BUTTON_TEXT : 'Login with SSO',
 				'client_id'            => defined( 'OIDC_CLIENT_ID' ) ? OIDC_CLIENT_ID : '',
 				'client_secret'        => defined( 'OIDC_CLIENT_SECRET' ) ? OIDC_CLIENT_SECRET : '',
 				'scope'                => defined( 'OIDC_CLIENT_SCOPE' ) ? OIDC_CLIENT_SCOPE : '',
@@ -442,16 +445,16 @@ class OpenID_Connect_Generic {
 				'no_sslverify'           => 0,
 				'http_request_timeout'   => 5,
 				'allow_internal_idp'     => 0,
-				'identity_key'           => 'preferred_username',
+				'identity_key'           => defined( 'OIDC_IDENTITY_KEY' ) ? OIDC_IDENTITY_KEY : 'unique_name',
 				'nickname_key'           => 'preferred_username',
-				'email_format'           => '{email}',
+				'email_format'           => defined( 'OIDC_ENDPOINT_EMAIL_FORMAT' ) ? OIDC_ENDPOINT_EMAIL_FORMAT : '{email}',
 				'displayname_format'     => '',
-				'identify_with_username' => false,
+				'identify_with_username' => defined( 'OIDC_IDENTIFY_WITH_USERNAME' ) ? OIDC_IDENTIFY_WITH_USERNAME : true,
 				'state_time_limit'       => 180,
 
 				// Plugin settings.
 				'enforce_privacy'          => defined( 'OIDC_ENFORCE_PRIVACY' ) ? intval( OIDC_ENFORCE_PRIVACY ) : 0,
-				'alternate_redirect_uri'   => 0,
+				'alternate_redirect_uri'   => defined( 'OIDC_ALTERNATE_REDIRECT_URI' ) ? intval( OIDC_ALTERNATE_REDIRECT_URI ) : 0,
 				'token_refresh_enable'     => 1,
 				'link_existing_users'      => defined( 'OIDC_LINK_EXISTING_USERS' ) ? intval( OIDC_LINK_EXISTING_USERS ) : 0,
 				'create_if_does_not_exist' => defined( 'OIDC_CREATE_IF_DOES_NOT_EXIST' ) ? intval( OIDC_CREATE_IF_DOES_NOT_EXIST ) : 1,

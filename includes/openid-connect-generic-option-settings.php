@@ -65,6 +65,7 @@
  */
 class OpenID_Connect_Generic_Option_Settings {
 
+
 	/**
 	 * WordPress option name/key.
 	 *
@@ -101,6 +102,7 @@ class OpenID_Connect_Generic_Option_Settings {
 		'endpoint_jwks'             => 'OIDC_ENDPOINT_JWKS_URL',
 		'issuer'                    => 'OIDC_ISSUER',
 		'login_type'                => 'OIDC_LOGIN_TYPE',
+		'login_button_text'         => 'OIDC_LOGIN_BUTTON_TEXT',
 		'scope'                     => 'OIDC_CLIENT_SCOPE',
 		'create_if_does_not_exist'  => 'OIDC_CREATE_IF_DOES_NOT_EXIST',
 		'enforce_privacy'           => 'OIDC_ENFORCE_PRIVACY',
@@ -110,6 +112,10 @@ class OpenID_Connect_Generic_Option_Settings {
 		'acr_values'                => 'OIDC_ACR_VALUES',
 		'enable_logging'            => 'OIDC_ENABLE_LOGGING',
 		'log_limit'                 => 'OIDC_LOG_LIMIT',
+		'email_format'              => 'OIDC_ENDPOINT_EMAIL_FORMAT',
+		'alternate_redirect_uri'    => 'OIDC_ALTERNATE_REDIRECT_URI',
+		'identity_key'              => 'OIDC_IDENTITY_KEY',
+		'identify_with_username'    => 'OIDC_IDENTIFY_WITH_USERNAME',
 	);
 
 	/**

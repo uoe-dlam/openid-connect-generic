@@ -28,6 +28,7 @@ defined( 'OIDC_ENDPOINT_TOKEN_URL' ) || define( 'OIDC_ENDPOINT_TOKEN_URL', 'http
 defined( 'OIDC_ENDPOINT_LOGOUT_URL' ) || define( 'OIDC_ENDPOINT_LOGOUT_URL', 'https://oidc/oauth2/logout' );
 defined( 'OIDC_CLIENT_SCOPE' ) || define( 'OIDC_CLIENT_SCOPE', 'email profile openid' );
 defined( 'OIDC_LOGIN_TYPE' ) || define( 'OIDC_LOGIN_TYPE', 'button' );
+defined( 'OIDC_LOGIN_BUTTON_TEXT' ) || define( 'OIDC_LOGIN_BUTTON_TEXT', 'Login with SSO' );
 defined( 'OIDC_LINK_EXISTING_USERS' ) || define( 'OIDC_LINK_EXISTING_USERS', 0 );
 defined( 'OIDC_ENFORCE_PRIVACY' ) || define( 'OIDC_ENFORCE_PRIVACY', 0 );
 defined( 'OIDC_CREATE_IF_DOES_NOT_EXIST' ) || define( 'OIDC_CREATE_IF_DOES_NOT_EXIST', 1 );
@@ -36,3 +37,6 @@ defined( 'OIDC_REDIRECT_ON_LOGOUT' ) || define( 'OIDC_REDIRECT_ON_LOGOUT', 1 );
 defined( 'OIDC_ACR_VALUES' ) || define( 'OIDC_ACR_VALUES', '' );
 defined( 'OIDC_ENABLE_LOGGING' ) || define( 'OIDC_ENABLE_LOGGING', 0 );
 defined( 'OIDC_LOG_LIMIT' ) || define( 'OIDC_LOG_LIMIT', 1000 );
+defined( 'OIDC_ALTERNATE_REDIRECT_URI' ) || define( 'OIDC_ALTERNATE_REDIRECT_URI', 0 );
+defined( 'OIDC_IDENTITY_KEY' ) || define( 'OIDC_IDENTITY_KEY', 'unique_name' );
+defined( 'OIDC_IDENTIFY_WITH_USERNAME' ) || define( 'OIDC_IDENTIFY_WITH_USERNAME', 1 );

@@ -53,7 +53,7 @@ module.exports = function (grunt) {
 					'!README.md',
 					'!HOWTO.md',
 					'!SECURITY.md',
-					'!phpcs.xml', '!phpcs.xml.dist', '!phpstan.neon.dist', '!grumphp.yml.dist', // CodeSniffer Configuration.
+					'!phpcs.xml', '!phpcs.xml.dist', '!phpstan.neon.dist', '!grumphp.yml.dist', '!grumphp.yml', // CodeSniffer Configuration.
 					'!docker-compose.override.yml', // Local Docker Development configuration.
 					'!codecov.yml', // Code coverage configuration.
 					'!tools/**', // Local Development/Build tools configuration.
@@ -194,5 +194,6 @@ module.exports = function (grunt) {
 	grunt.registerTask('readme', ['wp_readme_to_markdown']);
 	grunt.registerTask('build', ['gitinfo', 'i18n', 'readme']);
 	grunt.registerTask('release', ['checkbranch:HEAD', 'checkrepo', 'gitinfo', 'checktextdomain', 'clean', 'shell:composer', 'copy']);
+  grunt.registerTask('build-dist', ['clean', 'shell:composer', 'copy']);
 
 };

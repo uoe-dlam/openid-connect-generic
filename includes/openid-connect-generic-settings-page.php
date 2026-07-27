@@ -19,6 +19,7 @@
  */
 class OpenID_Connect_Generic_Settings_Page {
 
+
 	/**
 	 * Local copy of the settings provided by the base plugin.
 	 *
@@ -178,8 +179,8 @@ class OpenID_Connect_Generic_Settings_Page {
 		// Preprocess fields and add them to the page.
 		foreach ( $this->settings_fields as $key => $field ) {
 			// Make sure each key exists in the settings array.
-			if ( ! isset( $this->settings->{ $key } ) ) {
-				$this->settings->{ $key } = null;
+			if ( ! isset( $this->settings->{$key} ) ) {
+				$this->settings->{$key} = null;
 			}
 
 			// Determine appropriate output callback.
@@ -243,6 +244,7 @@ class OpenID_Connect_Generic_Settings_Page {
 				'description' => __( 'Customize the text shown on the OpenID Connect login button. Leave empty to use the default text.', 'daggerhart-openid-connect-generic' ),
 				'example'     => 'Login with Single Sign-On',
 				'type'        => 'text',
+				'disabled'    => defined( 'OIDC_LOGIN_BUTTON_TEXT' ),
 				'section'     => 'client_settings',
 			),
 			'client_id'         => array(
@@ -253,13 +255,13 @@ class OpenID_Connect_Generic_Settings_Page {
 				'disabled'    => defined( 'OIDC_CLIENT_ID' ),
 				'section'     => 'client_settings',
 			),
-			'client_secret'     => array(
-				'title'       => __( 'Client Secret Key', 'daggerhart-openid-connect-generic' ),
-				'description' => __( 'Arbitrary secret key the server expects from this client. Can be anything, but should be very unique.', 'daggerhart-openid-connect-generic' ),
-				'type'        => 'text',
-				'disabled'    => defined( 'OIDC_CLIENT_SECRET' ),
-				'section'     => 'client_settings',
-			),
+			// 'client_secret'     => array(
+			// 'title'       => __( 'Client Secret Key', 'daggerhart-openid-connect-generic' ),
+			// 'description' => __( 'Arbitrary secret key the server expects from this client. Can be anything, but should be very unique.', 'daggerhart-openid-connect-generic' ),
+			// 'type'        => 'text',
+			// 'disabled'    => defined( 'OIDC_CLIENT_SECRET' ),
+			// 'section'     => 'client_settings',
+			// ),
 			'scope'             => array(
 				'title'       => __( 'OpenID Scope', 'daggerhart-openid-connect-generic' ),
 				'description' => __( 'Space separated list of scopes this client should access.', 'daggerhart-openid-connect-generic' ),
@@ -335,6 +337,7 @@ class OpenID_Connect_Generic_Settings_Page {
 				'description' => __( 'Where in the user claim array to find the user\'s identification data. Possible standard values: preferred_username, name, or sub. If you\'re having trouble, use "sub".', 'daggerhart-openid-connect-generic' ),
 				'example'     => 'preferred_username',
 				'type'        => 'text',
+				'disabled'    => defined( 'OIDC_IDENTITY_KEY' ),
 				'section'     => 'client_settings',
 			),
 			'http_request_timeout'      => array(
@@ -355,6 +358,7 @@ class OpenID_Connect_Generic_Settings_Page {
 				'title'       => __( 'Alternate Redirect URI', 'daggerhart-openid-connect-generic' ),
 				'description' => __( 'Provide an alternative redirect route. Useful if your server is causing issues with the default admin-ajax method. You must flush rewrite rules after changing this setting. This can be done by saving the Permalinks settings page.', 'daggerhart-openid-connect-generic' ),
 				'type'        => 'checkbox',
+				'disabled'    => defined( 'OIDC_ALTERNATE_REDIRECT_URI' ),
 				'section'     => 'authorization_settings',
 			),
 			'nickname_key'     => array(
@@ -369,6 +373,7 @@ class OpenID_Connect_Generic_Settings_Page {
 				'description' => __( 'String from which the user\'s email address is built. Specify "{email}" as long as the user claim contains an email claim.', 'daggerhart-openid-connect-generic' ),
 				'example'     => '{email}',
 				'type'        => 'text',
+				'disabled'    => defined( 'OIDC_ENDPOINT_EMAIL_FORMAT' ),
 				'section'     => 'client_settings',
 			),
 			'displayname_format'     => array(
@@ -382,6 +387,7 @@ class OpenID_Connect_Generic_Settings_Page {
 				'title'       => __( 'Identify with User Name', 'daggerhart-openid-connect-generic' ),
 				'description' => __( 'If checked, the user\'s identity will be determined by the user name instead of the email address.', 'daggerhart-openid-connect-generic' ),
 				'type'        => 'checkbox',
+				'disabled'    => defined( 'OIDC_IDENTIFY_WITH_USERNAME' ),
 				'section'     => 'client_settings',
 			),
 			'state_time_limit'     => array(
@@ -490,7 +496,7 @@ class OpenID_Connect_Generic_Settings_Page {
 
 		wp_enqueue_style( 'daggerhart-openid-connect-generic-admin', plugin_dir_url( __DIR__ ) . 'css/styles-admin.css', array(), OpenID_Connect_Generic::VERSION, 'all' );
 
-		$redirect_uri = admin_url( 'admin-ajax.php?action=openid-connect-authorize' );
+		$redirect_uri = get_admin_url( get_main_site_id() ) . 'admin-ajax.php?action=openid-connect-authorize';
 
 		if ( $this->settings->alternate_redirect_uri ) {
 			$redirect_uri = site_url( '/openid-connect-authorize' );
@@ -498,11 +504,6 @@ class OpenID_Connect_Generic_Settings_Page {
 		?>
 		<div class="wrap">
 			<h2><?php print esc_html( get_admin_page_title() ); ?></h2>
-
-			<?php
-			// Render discovery document import form.
-			$this->render_discovery_form();
-			?>
 
 			<form method="post" action="options.php">
 				<?php
@@ -552,7 +553,7 @@ class OpenID_Connect_Generic_Settings_Page {
 			class="large-text<?php echo ( ! empty( $field['disabled'] ) && boolval( $field['disabled'] ) === true ) ? ' disabled' : ''; ?>"
 			name="<?php print esc_attr( $field['name'] ); ?>"
 			<?php echo ( ! empty( $field['disabled'] ) && boolval( $field['disabled'] ) === true ) ? ' disabled' : ''; ?>
-			value="<?php print esc_attr( $this->settings->{ $field['key'] } ); ?>">
+			value="<?php print esc_attr( $this->settings->{$field['key']} ); ?>">
 		<?php
 		$this->do_field_description( $field );
 	}
@@ -568,16 +569,16 @@ class OpenID_Connect_Generic_Settings_Page {
 	public function do_checkbox( $field ) {
 		$hidden_value = 0;
 		if ( ! empty( $field['disabled'] ) && boolval( $field['disabled'] ) === true ) {
-			$hidden_value = intval( $this->settings->{ $field['key'] } );
+			$hidden_value = intval( $this->settings->{$field['key']} );
 		}
 		?>
 		<input type="hidden" name="<?php print esc_attr( $field['name'] ); ?>" value="<?php print esc_attr( strval( $hidden_value ) ); ?>">
 		<input type="checkbox"
-			   id="<?php print esc_attr( $field['key'] ); ?>"
-				 name="<?php print esc_attr( $field['name'] ); ?>"
-				 <?php echo ( ! empty( $field['disabled'] ) && boolval( $field['disabled'] ) === true ) ? ' disabled="disabled"' : ''; ?>
-			   value="1"
-			<?php checked( $this->settings->{ $field['key'] }, 1 ); ?>>
+			id="<?php print esc_attr( $field['key'] ); ?>"
+			name="<?php print esc_attr( $field['name'] ); ?>"
+			<?php echo ( ! empty( $field['disabled'] ) && boolval( $field['disabled'] ) === true ) ? ' disabled="disabled"' : ''; ?>
+			value="1"
+			<?php checked( $this->settings->{$field['key']}, 1 ); ?>>
 		<?php
 		$this->do_field_description( $field );
 	}
@@ -590,13 +591,12 @@ class OpenID_Connect_Generic_Settings_Page {
 	 * @return void
 	 */
 	public function do_select( $field ) {
-		$current_value = isset( $this->settings->{ $field['key'] } ) ? $this->settings->{ $field['key'] } : '';
+		$current_value = isset( $this->settings->{$field['key']} ) ? $this->settings->{$field['key']} : '';
 		?>
 		<select
 			id="<?php print esc_attr( $field['key'] ); ?>"
 			name="<?php print esc_attr( $field['name'] ); ?>"
-			<?php echo ( ! empty( $field['disabled'] ) && boolval( $field['disabled'] ) === true ) ? ' disabled' : ''; ?>
-			>
+			<?php echo ( ! empty( $field['disabled'] ) && boolval( $field['disabled'] ) === true ) ? ' disabled' : ''; ?>>
 			<?php foreach ( $field['options'] as $value => $text ) : ?>
 				<option value="<?php print esc_attr( $value ); ?>" <?php selected( $value, $current_value ); ?>><?php print esc_html( $text ); ?></option>
 			<?php endforeach; ?>
@@ -617,7 +617,7 @@ class OpenID_Connect_Generic_Settings_Page {
 		<p class="description">
 			<?php print wp_kses_post( $field['description'] ); ?>
 			<?php if ( isset( $field['example'] ) ) : ?>
-				<br/><strong><?php esc_html_e( 'Example', 'daggerhart-openid-connect-generic' ); ?>: </strong>
+				<br /><strong><?php esc_html_e( 'Example', 'daggerhart-openid-connect-generic' ); ?>: </strong>
 				<code><?php print esc_html( $field['example'] ); ?></code>
 			<?php endif; ?>
 		</p>
@@ -630,7 +630,7 @@ class OpenID_Connect_Generic_Settings_Page {
 	 * @return void
 	 */
 	public function client_settings_description() {
-		esc_html_e( 'Enter your OpenID Connect identity provider settings.', 'daggerhart-openid-connect-generic' );
+		esc_html_e( 'Enter your OpenID Connect identity provider settings as the enviromental variables. Only some settings can be changed here. Client Secret Key is not displayed for the security purposes.', 'daggerhart-openid-connect-generic' );
 	}
 
 	/**
@@ -791,7 +791,7 @@ class OpenID_Connect_Generic_Settings_Page {
 		foreach ( $field_mapping as $discovery_key => $setting_key ) {
 			if ( isset( $discovery[ $discovery_key ] ) && ! empty( $discovery[ $discovery_key ] ) ) {
 				// Update the setting value (not saved yet).
-				$this->settings->{ $setting_key } = $discovery[ $discovery_key ];
+				$this->settings->{$setting_key} = $discovery[ $discovery_key ];
 				$populated_fields[] = $setting_key;
 			}
 		}
@@ -875,65 +875,5 @@ class OpenID_Connect_Generic_Settings_Page {
 			),
 			'success'
 		);
-	}
-
-	/**
-	 * Render the discovery document import form.
-	 *
-	 * Outputs HTML form for importing configuration from discovery document.
-	 * Collapsed by default if endpoint_login is already configured.
-	 *
-	 * @return void
-	 */
-	private function render_discovery_form() {
-		// Auto-expand if plugin is not yet configured.
-		$is_configured = ! empty( $this->settings->endpoint_login );
-		$open_attribute = $is_configured ? '' : ' open';
-		?>
-		<details<?php echo esc_attr( $open_attribute ); ?> class="oidc-discovery-section">
-			<summary class="oidc-discovery-summary">
-				⚡ <?php esc_html_e( 'Quick Setup: Import from Discovery Document', 'daggerhart-openid-connect-generic' ); ?>
-			</summary>
-			<div class="notice notice-info inline oidc-discovery-content">
-				<p>
-					<?php esc_html_e( 'Auto-populate endpoint settings from your identity provider\'s OpenID Connect discovery document. After loading, review the populated fields below and click "Save Changes" to apply.', 'daggerhart-openid-connect-generic' ); ?>
-				</p>
-				<form method="post" action="">
-					<?php wp_nonce_field( 'oidc_discovery_import', 'oidc_discovery_nonce' ); ?>
-					<table class="form-table">
-						<tr>
-							<th scope="row">
-								<label for="oidc_discovery_url">
-									<?php esc_html_e( 'Discovery URL', 'daggerhart-openid-connect-generic' ); ?>
-								</label>
-							</th>
-							<td>
-								<input
-									type="url"
-									id="oidc_discovery_url"
-									name="oidc_discovery_url"
-									class="regular-text oidc-discovery-url-input"
-									placeholder="https://your-idp.com/.well-known/openid-configuration"
-								/>
-								<p class="description">
-									<?php esc_html_e( 'Enter your identity provider\'s OpenID Connect discovery endpoint URL.', 'daggerhart-openid-connect-generic' ); ?>
-									<br>
-									<strong><?php esc_html_e( 'Examples:', 'daggerhart-openid-connect-generic' ); ?></strong>
-									<br>
-									• Auth0: <code>https://{tenant}.{region}.auth0.com/.well-known/openid-configuration</code>
-									<br>
-									• Keycloak: <code>https://{domain}/realms/{realm}/.well-known/openid-configuration</code>
-									<br>
-									• Okta: <code>https://{domain}/.well-known/openid-configuration</code>
-								</p>
-							</td>
-						</tr>
-					</table>
-					<?php submit_button( __( 'Load Configuration', 'daggerhart-openid-connect-generic' ), 'secondary', 'oidc_discovery_submit', false ); ?>
-				</form>
-			</div>
-		</details>
-		<hr class="oidc-discovery-separator">
-		<?php
 	}
 }
