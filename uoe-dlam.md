@@ -76,3 +76,10 @@ Please make sure you do not include any `git` related folders and files.
 `define( 'OIDC_IDENTITY_KEY', 'unique_name' );`
 
 `define( 'OIDC_IDENTIFY_WITH_USERNAME', true );`
+
+Set up OpenID on main blogs dashboard (Settings --> OpenID Connect Client) and set:
+
+-   Nickname Key: `name`
+-   Display Name Formatting: `{name}`
+
+Leave the rest of the options unchanged.
