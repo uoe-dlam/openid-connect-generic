@@ -39,24 +39,21 @@ Please make sure you do not include any `git` related folders and files.
 
 # Example of wp-config.php entry:
 
-/\*\*
-
--   Define connection details for the openid-connect-generic plugin
--   \*/
+// Define connection details for the openid-connect-generic plugin
 
 // Required: Client credentials (keep secret out of database)
-define('OIDC_CLIENT_ID', '0da92475-c44a-4f2d-9135-a83ad31fc7f5');
+define('OIDC_CLIENT_ID', '[YOUR CLIENT ID]');
 define('OIDC_CLIENT_SECRET', getenv('OIDC_CLIENT_SECRET'));
 
 // Required: IDP endpoints
-define('OIDC_ENDPOINT_LOGIN_URL', 'https://login.microsoftonline.com/2e9f06b0-1669-4589-8789-10a06934dc61/oauth2/authorize?domain_hint=ed.ac.uk');
-define('OIDC_ENDPOINT_USERINFO_URL', 'https://login.microsoftonline.com/2e9f06b0-1669-4589-8789-10a06934dc61/openid/userinfo');
-define('OIDC_ENDPOINT_TOKEN_URL', 'https://login.microsoftonline.com/2e9f06b0-1669-4589-8789-10a06934dc61/oauth2/token');
+define('OIDC_ENDPOINT_LOGIN_URL', 'https://login.microsoftonline.com/[YOUR TENANT ID]/oauth2/authorize?domain_hint=ed.ac.uk');
+define('OIDC_ENDPOINT_USERINFO_URL', 'https://login.microsoftonline.com/[YOUR TENANT ID]/openid/userinfo');
+define('OIDC_ENDPOINT_TOKEN_URL', 'https://login.microsoftonline.com/[YOUR TENANT ID]/oauth2/token');
 define('OIDC_ENDPOINT_JWKS_URL', 'https://login.microsoftonline.com/common/discovery/keys');
-define('OIDC_ENDPOINT_LOGOUT_URL', 'https://login.microsoftonline.com/2e9f06b0-1669-4589-8789-10a06934dc61/oauth2/logout');
+define('OIDC_ENDPOINT_LOGOUT_URL', 'https://login.microsoftonline.com/[YOUR TENANT ID]/oauth2/logout');
 
 // Security: Issuer validation (if your IDP uses different issuer)
-define('OIDC_ISSUER', 'https://sts.windows.net/2e9f06b0-1669-4589-8789-10a06934dc61/');
+define('OIDC_ISSUER', 'https://sts.windows.net/[YOUR TENANT ID]/');
 
 // Scope
 define('OIDC_CLIENT_SCOPE', 'email profile openid User.Read');
