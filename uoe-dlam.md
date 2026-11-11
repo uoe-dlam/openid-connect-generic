@@ -2,8 +2,6 @@ This repository is a fork of [openid-connect-generic](https://github.com/oidc-wp
 
 It contains some changes to support its use in the University of Edinburgh Blogging platform.
 
-**Please update the repository Wiki pages when making changes to this file.**
-
 # Changes
 
 Here is a list of changes made to the original plug-in ([details in PR #1](https://github.com/uoe-dlam/openid-connect-generic/pull/1)):
@@ -39,47 +37,42 @@ Please make sure you do not include any `git` related folders and files.
 
 # Example of wp-config.php entry:
 
-// Define connection details for the openid-connect-generic plugin
+`define('OIDC_CLIENT_ID', '[YOUR CLIENT ID]');`
 
-// Required: Client credentials (keep secret out of database)
-define('OIDC_CLIENT_ID', '[YOUR CLIENT ID]');
-define('OIDC_CLIENT_SECRET', getenv('OIDC_CLIENT_SECRET'));
+`define('OIDC_CLIENT_SECRET', getenv('OIDC_CLIENT_SECRET'));`
 
-// Required: IDP endpoints
-define('OIDC_ENDPOINT_LOGIN_URL', 'https://login.microsoftonline.com/[YOUR TENANT ID]/oauth2/authorize?domain_hint=ed.ac.uk');
-define('OIDC_ENDPOINT_USERINFO_URL', 'https://login.microsoftonline.com/[YOUR TENANT ID]/openid/userinfo');
-define('OIDC_ENDPOINT_TOKEN_URL', 'https://login.microsoftonline.com/[YOUR TENANT ID]/oauth2/token');
-define('OIDC_ENDPOINT_JWKS_URL', 'https://login.microsoftonline.com/common/discovery/keys');
-define('OIDC_ENDPOINT_LOGOUT_URL', 'https://login.microsoftonline.com/[YOUR TENANT ID]/oauth2/logout');
+`define('OIDC_ENDPOINT_LOGIN_URL', 'https://login.microsoftonline.com/[YOUR TENANT ID]/oauth2/authorize?domain_hint=ed.ac.uk');`
 
-// Security: Issuer validation (if your IDP uses different issuer)
-define('OIDC_ISSUER', 'https://sts.windows.net/[YOUR TENANT ID]/');
+`define('OIDC_ENDPOINT_USERINFO_URL', 'https://login.microsoftonline.com/[YOUR TENANT ID]/openid/userinfo');`
 
-// Scope
-define('OIDC_CLIENT_SCOPE', 'email profile openid User.Read');
+`define('OIDC_ENDPOINT_TOKEN_URL', 'https://login.microsoftonline.com/[YOUR TENANT ID]/oauth2/token');`
 
-// Enforce SSO for entire site
-define('OIDC_LOGIN_TYPE', 'auto');
-define('OIDC_ENFORCE_PRIVACY', false);
+`define('OIDC_ENDPOINT_JWKS_URL', 'https://login.microsoftonline.com/common/discovery/keys');`
 
-define('OIDC_ALTERNATE_REDIRECT_URI', false);
+`define('OIDC_ENDPOINT_LOGOUT_URL', 'https://login.microsoftonline.com/[YOUR TENANT ID]/oauth2/logout');`
 
-// User management
-define('OIDC_CREATE_IF_DOES_NOT_EXIST', false);
-define('OIDC_LINK_EXISTING_USERS', true);
-define('OIDC_REDIRECT_USER_BACK', true);
+`define('OIDC_ISSUER', 'https://sts.windows.net/[YOUR TENANT ID]/');`
 
-// Logging (disable in production)
-define('OIDC_ENABLE_LOGGING', false);
+`define('OIDC_CLIENT_SCOPE', 'email profile openid User.Read');`
 
-//email_format
-define( 'OIDC_ENDPOINT_EMAIL_FORMAT', '{unique_name}' );
+`define('OIDC_LOGIN_TYPE', 'auto');`
 
-//login button text
-define( 'OIDC_LOGIN_BUTTON_TEXT', 'Login with SSO (EntraID)' );
+`define('OIDC_ENFORCE_PRIVACY', false);`
 
-// OIDC_IDENTITY_KEY
-define( 'OIDC_IDENTITY_KEY', 'unique_name' );
+`define('OIDC_ALTERNATE_REDIRECT_URI', false);`
 
-// OIDC_IDENTIFY_WITH_USERNAME
-define( 'OIDC_IDENTIFY_WITH_USERNAME', true );
+`define('OIDC_CREATE_IF_DOES_NOT_EXIST', false);`
+
+`define('OIDC_LINK_EXISTING_USERS', true);`
+
+`define('OIDC_REDIRECT_USER_BACK', true);`
+
+`define('OIDC_ENABLE_LOGGING', false);`
+
+`define( 'OIDC_ENDPOINT_EMAIL_FORMAT', '{unique_name}' );`
+
+`define( 'OIDC_LOGIN_BUTTON_TEXT', 'Login with SSO (EntraID)' );`
+
+`define( 'OIDC_IDENTITY_KEY', 'unique_name' );`
+
+`define( 'OIDC_IDENTIFY_WITH_USERNAME', true );`
