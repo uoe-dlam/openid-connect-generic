@@ -134,7 +134,7 @@ class OpenID_Connect_Generic_JWT_Validator_Test extends WP_UnitTestCase {
 	private function create_validator_with_mocked_jwks( $jwks, $jwks_uri = 'https://example.com/jwks' ) {
 		// Mock the JWKS fetch by setting a transient.
 		$cache_key = 'openid_connect_jwks_' . md5( $jwks_uri );
-		set_transient( $cache_key, $jwks, 3600 );
+		set_site_transient( $cache_key, $jwks, 3600 );
 
 		return new OpenID_Connect_Generic_JWT_Validator(
 			$jwks_uri,

@@ -156,7 +156,7 @@ class OpenID_Connect_Generic_JWT_Validator {
 		}
 
 		// Cache the JWKS.
-		set_transient( $cache_key, $jwks, $this->cache_ttl );
+		set_site_transient( $cache_key, $jwks, $this->cache_ttl );
 
 		return $jwks;
 	}

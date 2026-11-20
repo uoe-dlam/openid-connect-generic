@@ -544,7 +544,7 @@ class OpenID_Connect_Generic_Client {
 	 * @return void
 	 */
 	public function bind_state( $state, $browser_id ) {
-		set_transient( 'openid-connect-generic-state--' . $state . '--browser', $this->hash_browser_id( $browser_id ), $this->state_time_limit );
+		set_site_transient( 'openid-connect-generic-state--' . $state . '--browser', $this->hash_browser_id( $browser_id ), $this->state_time_limit );
 	}
 
 	/**
@@ -556,7 +556,7 @@ class OpenID_Connect_Generic_Client {
 	 */
 	public function new_nonce( $state ) {
 		$nonce = bin2hex( random_bytes( 16 ) );
-		set_transient( 'openid-connect-generic-state--' . $state . '--nonce', $nonce, $this->state_time_limit );
+		set_site_transient( 'openid-connect-generic-state--' . $state . '--nonce', $nonce, $this->state_time_limit );
 
 		return $nonce;
 	}
@@ -594,7 +594,7 @@ class OpenID_Connect_Generic_Client {
 	 */
 	public function new_code_challenge( $state ) {
 		$code_verifier = bin2hex( random_bytes( 32 ) );
-		set_transient( 'openid-connect-generic-state--' . $state . '--pkce', $code_verifier, $this->state_time_limit );
+		set_site_transient( 'openid-connect-generic-state--' . $state . '--pkce', $code_verifier, $this->state_time_limit );
 
 		return rtrim( strtr( base64_encode( hash( 'sha256', $code_verifier, true ) ), '+/', '-_' ), '=' );
 	}
@@ -621,7 +621,7 @@ class OpenID_Connect_Generic_Client {
 	 * @return void
 	 */
 	public function set_state_url( $state, $url ) {
-		set_transient( 'openid-connect-generic-state--' . $state . '--url', $url, $this->state_time_limit );
+		set_site_transient( 'openid-connect-generic-state--' . $state . '--url', $url, $this->state_time_limit );
 	}
 
 	/**
