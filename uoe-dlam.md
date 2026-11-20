@@ -7,6 +7,7 @@ It contains some changes to support its use in the University of Edinburgh Blogg
 Here is a list of changes made to the original plug-in ([details in PR #1](https://github.com/uoe-dlam/openid-connect-generic/pull/1)):
 
 - Use of `get_site_transient` instead of `get_transient`
+- Use of `set_site_transient` instead of `set_transient`
 - Some options were moved to config (wp-config.php):
     - 'login_button_text' => 'OIDC_LOGIN_BUTTON_TEXT',
     - 'email_format' => 'OIDC_ENDPOINT_EMAIL_FORMAT',
