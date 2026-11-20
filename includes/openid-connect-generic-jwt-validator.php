@@ -111,7 +111,7 @@ class OpenID_Connect_Generic_JWT_Validator {
 	private function fetch_jwks() {
 		// Check cache first.
 		$cache_key = 'openid_connect_jwks_' . md5( $this->jwks_uri );
-		$cached_jwks = get_transient( $cache_key );
+		$cached_jwks = get_site_transient( $cache_key );
 
 		if ( false !== $cached_jwks ) {
 			return $cached_jwks;

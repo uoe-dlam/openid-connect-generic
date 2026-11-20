@@ -492,7 +492,7 @@ class OpenID_Connect_Generic_Client_Test extends WP_UnitTestCase {
 
 		$client->delete_state( $state );
 
-		$this->assertFalse( get_transient( 'openid-connect-generic-state--' . $state ) );
+		$this->assertFalse( get_site_transient( 'openid-connect-generic-state--' . $state ) );
 		$this->assertFalse( $client->is_state_bound( $state ) );
 		$this->assertSame( '', $client->get_state_url( $state ) );
 

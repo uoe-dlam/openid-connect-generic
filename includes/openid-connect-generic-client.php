@@ -523,7 +523,7 @@ class OpenID_Connect_Generic_Client {
 		}
 
 		// The state must come back to the browser that started the login, and only once.
-		$binding = get_transient( 'openid-connect-generic-state--' . $state . '--browser' );
+		$binding = get_site_transient( 'openid-connect-generic-state--' . $state . '--browser' );
 		$browser_id = $this->get_browser_id();
 		if ( empty( $binding ) || empty( $browser_id ) || ! hash_equals( $binding, $this->hash_browser_id( $browser_id ) ) ) {
 			do_action( 'openid-connect-generic-state-not-found', $state );
@@ -577,7 +577,7 @@ class OpenID_Connect_Generic_Client {
 			return true;
 		}
 
-		$expected = get_transient( 'openid-connect-generic-state--' . $state . '--nonce' );
+		$expected = get_site_transient( 'openid-connect-generic-state--' . $state . '--nonce' );
 		if ( empty( $expected ) || ! is_string( $id_token_claim['nonce'] ) || ! hash_equals( $expected, $id_token_claim['nonce'] ) ) {
 			return new WP_Error( 'invalid-nonce', __( 'Invalid nonce.', 'daggerhart-openid-connect-generic' ), $id_token_claim );
 		}
@@ -607,7 +607,7 @@ class OpenID_Connect_Generic_Client {
 	 * @return string Empty when PKCE was not used.
 	 */
 	public function get_code_verifier( $state ) {
-		$code_verifier = get_transient( 'openid-connect-generic-state--' . $state . '--pkce' );
+		$code_verifier = get_site_transient( 'openid-connect-generic-state--' . $state . '--pkce' );
 
 		return is_string( $code_verifier ) ? $code_verifier : '';
 	}
@@ -632,7 +632,7 @@ class OpenID_Connect_Generic_Client {
 	 * @return string Empty when none is stored.
 	 */
 	public function get_state_url( $state ) {
-		$url = get_transient( 'openid-connect-generic-state--' . $state . '--url' );
+		$url = get_site_transient( 'openid-connect-generic-state--' . $state . '--url' );
 
 		return is_string( $url ) ? $url : '';
 	}
@@ -645,7 +645,7 @@ class OpenID_Connect_Generic_Client {
 	 * @return bool
 	 */
 	public function is_state_bound( $state ) {
-		return ! empty( get_transient( 'openid-connect-generic-state--' . $state . '--browser' ) );
+		return ! empty( get_site_transient( 'openid-connect-generic-state--' . $state . '--browser' ) );
 	}
 
 	/**
@@ -656,7 +656,7 @@ class OpenID_Connect_Generic_Client {
 	 * @return bool
 	 */
 	public function is_state_bound_to_browser( $state ) {
-		$binding = get_transient( 'openid-connect-generic-state--' . $state . '--browser' );
+		$binding = get_site_transient( 'openid-connect-generic-state--' . $state . '--browser' );
 		$browser_id = $this->get_browser_id();
 
 		return ! empty( $binding ) && ! empty( $browser_id ) && hash_equals( $binding, $this->hash_browser_id( $browser_id ) );
