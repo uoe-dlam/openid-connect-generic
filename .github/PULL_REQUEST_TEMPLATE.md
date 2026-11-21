@@ -9,3 +9,5 @@ Our "working" branch is uoe-dlam-blogs.
 Please create all feature branches out of it (uoe-dlam-blogs) and merge all PRs into it.
 
 Do not merge our changes into develop or mian branch. Those branches should be only synced with upstream.
+
+test
