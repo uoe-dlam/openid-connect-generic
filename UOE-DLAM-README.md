@@ -20,6 +20,12 @@ Here is a list of changes made to the original plug-in ([details in PR #1](https
 - The discovery form (Quick Setup: Import from Discovery Document) has been removed,
 - The plug-in setup form is only available in the main blog site dashboard.
 
+# Contribution
+
+Please keep the our develop branch in sync with the upstream develop branch.
+
+Our default branch is uoe-dlam-blogs.
+
 # Build plugin
 
 Please remember to run:
