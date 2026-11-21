@@ -24,7 +24,11 @@ Here is a list of changes made to the original plug-in ([details in PR #1](https
 
 Please keep the our develop branch in sync with the upstream develop branch.
 
-Our default branch is uoe-dlam-blogs.
+Our "working" branch is uoe-dlam-blogs.
+
+Please create all feture branches out of it (uoe-dlam-blogs) and merge all PRs into it.
+
+Do not merge our changes into develop or mian branch. Those branches should be only synced with upstream.
 
 # Build plugin
 
