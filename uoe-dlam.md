@@ -22,6 +22,12 @@ Here is a list of changes made to the original plug-in ([details in PR #1](https
 
 # Build plugin
 
+Please remember to run:
+
+- `composer install`
+
+- `npm install`
+
 To get plug-in build for the WordPress please run:
 
 - `npm run grunt build-dist`
