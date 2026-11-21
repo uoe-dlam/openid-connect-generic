@@ -3,7 +3,7 @@
 **Tags:** security, login, oauth2, openidconnect, apps, authentication, autologin, sso  
 **Requires at least:** 6.7  
 **Tested up to:** 7.1  
-**Stable tag:** 3.11.4  
+**Stable tag:** 3.11.5  
 **Requires PHP:** 8.2  
 **License:** GPLv2 or later  
 **License URI:** http://www.gnu.org/licenses/gpl-2.0.html  
@@ -23,9 +23,13 @@ Please submit issues to the Github repo: https://github.com/oidc-wp/openid-conne
 
 ## Installation ##
 
-1. Upload to the `/wp-content/plugins/` directory
+1. Install the plugin from Plugins > Add New, or upload it to the `/wp-content/plugins/` directory
 1. Activate the plugin
 1. Visit Settings > OpenID Connect and configure to meet your needs
+
+### Installing from source ###
+
+The source code on GitHub, including its "Download ZIP" button, doesn't include the `vendor/` folder. Run `composer install --no-dev` in the plugin folder before activating it.
 
 ## Frequently Asked Questions ##
 
@@ -53,6 +57,10 @@ On the settings page for this plugin (Dashboard > Settings > OpenID Connect Gene
 
 Requires PHP 8.2 and WordPress 6.7 or later. Check your server's PHP version before updating.
 
+### 3.11.5 ###
+
+Fixes logins failing with "Invalid state" on Pantheon and some other managed hosts after updating to 3.11.4.
+
 ### 3.11.4 ###
 
 SECURITY UPDATE: Hardens login and account linking. Requires PHP 8.0. If you use Link Existing Users, review the new Link Users Without Verified Email setting after updating.
@@ -66,6 +74,11 @@ SECURITY UPDATE: 3.11.x branch - Fixes authentication vulnerabilities including 
 ### 3.12.0 ###
 
 * Requirements: Minimum PHP raised to 8.2 and minimum WordPress to 6.7. Tested up to WordPress 7.1.
+
+### 3.11.5 ###
+
+* Fix: Logins failed with "Invalid state" on hosts that only pass WordPress-style cookie names to PHP, such as Pantheon. The login cookie is now named `wp-openid_connect_generic_browser`, and the new `openid-connect-generic-browser-cookie-name` filter can change it.
+* Improvement: When logging is enabled, a failed state check logs which part of the check failed.
 
 ### 3.11.4 ###
 
