@@ -1,33 +1,11 @@
-### All Submissions:
+### Pull Request Contribution
 
-* [ ] Have you followed the [plugin Contributing guideline](https://github.com/oidc-wp/openid-connect-generi/blob/develop/.github/CONTRIBUTING.md)?
-* [ ] Does your code follow the [WordPress' coding standards](https://make.wordpress.org/core/handbook/best-practices/coding-standards/)?
-* [ ] Have you checked to ensure there aren't other open [Pull Requests](../pulls) for the same update/change?
+**When creating a Pull Request please make sure it is points to OUR fork and not the original**
 
-<!-- Mark completed items with an [x] -->
+Please keep the our develop and main branches in sync with the upstream.
 
-<!-- You can erase any parts of this template not applicable to your Pull Request. -->
+Our "working" branch is uoe-dlam-blogs.
 
-### Changes proposed in this Pull Request:
+Please create all feature branches out of it (uoe-dlam-blogs) and merge all PRs into it.
 
-<!-- Describe the changes made to this Pull Request and the reason for such changes. -->
-
-Closes # .
-
-### How to test the changes in this Pull Request:
-
-1.
-2.
-3.
-
-### Other information:
-
-* [ ] Have you added an explanation of what your changes do and why you'd like us to include them?
-* [ ] Have you written new tests for your changes, as applicable?
-* [ ] Have you successfully run tests with your changes locally?
-
-<!-- Mark completed items with an [x] -->
-
-### Changelog entry
-
-> Enter a summary of all changes on this Pull Request. This will appear in the changelog if accepted.
+Do not merge our changes into develop or mian branch. Those branches should be only synced with upstream.
