@@ -22,7 +22,7 @@ Here is a list of changes made to the original plug-in ([details in PR #1](https
 
 # Contribution
 
-Please keep the our develop branch in sync with the upstream develop branch.
+Please keep the our develop and main branches in sync with the upstream.
 
 Our "working" branch is uoe-dlam-blogs.
 
