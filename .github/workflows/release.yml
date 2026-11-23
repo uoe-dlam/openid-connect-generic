@@ -33,8 +33,7 @@ jobs:
             - name: Create ZIP
               run: |
                   PLUGIN_SLUG="daggerhart-openid-connect-generic"
-                  mv dist $PLUGIN_SLUG
-                  zip -r $PLUGIN_SLUG.zip $PLUGIN_SLUG
+                  cd dist && zip -r ../$PLUGIN_SLUG.zip $PLUGIN_SLUG
 
             - name: Upload ZIP
               uses: softprops/action-gh-release@v2
