@@ -54,6 +54,18 @@ The decompressed folder name should be **`daggerhart-openid-connect-generic`**.
 
 Please make sure you do not include any `git` related folders and files.
 
+# Plugin auto update
+
+This is done by using another plugin:
+
+https://github.com/YahnisElsts/plugin-update-checker
+
+and a separate confguration file: /includes/uoe-dlam-autoupdate.php
+
+It will look at the latest release and if there is a new one it will automatically download and update the plugin.
+
+It reuires PAT (Fine-grained Personal Access Token) defined as UOE_DLAM_BLOGS_PAT and set up in git to be able to read the repository.
+
 # Example of wp-config.php entry:
 
 `define('OIDC_CLIENT_ID', '[YOUR CLIENT ID]');`
@@ -97,6 +109,8 @@ Please make sure you do not include any `git` related folders and files.
 `define( 'OIDC_IDENTIFY_WITH_USERNAME', true );`
 
 `define( 'OIDC_LINK_UNVERIFIED_USERS', true );`
+
+`define( 'UOE_DLAM_BLOGS_PAT', '[YOUR PAT HERE]' );`
 
 Set up OpenID on main blogs dashboard (Settings --> OpenID Connect Client) and set:
 
