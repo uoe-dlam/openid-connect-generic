@@ -15,7 +15,7 @@
  * @wordpress-plugin
  * Plugin Name:       OpenID Connect Generic (UoE DLAM version)
  * Description:       Modified version of the Jonathan Daggerhart's OpenID Connect Generic plugin to support UoE Wordpress multisite Blogging platform.
- * Version:           3.11.5-dlam
+ * Version:           3.11.6
  * Requires at least: 6.7
  * Requires PHP:      8.2
  * Author:            UoE DLAM (based on work by daggerhart)
@@ -106,7 +106,7 @@ class OpenID_Connect_Generic {
 	 *
 	 * @var string
 	 */
-	const VERSION = '3.11.5';
+	const VERSION = '3.11.6';
 
 	/**
 	 * Option flagging the admin notice about linking users without a verified email.
