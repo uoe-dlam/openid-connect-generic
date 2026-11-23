@@ -12,6 +12,7 @@ Semantic Versioning 2.0.0
 ### Added
 
 - Added UOE-DLAM-CHANGELOG.md file (PR #9)
+- Block WordPress auto update feature (PR #10)
 
 [Unreleased]: https://github.com/uoe-dlam/openid-connect-generic/compare/3.11.5-dlam...HEAD
 [3.11.5-dlam]: https://github.com/uoe-dlam/openid-connect-generic/releases/tag/3.11.5-dlam
