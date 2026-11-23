@@ -7,7 +7,7 @@
  *
  * @package   OpenID_Connect_Generic
  * @category  General
- * @author    UoE DLAM (based on work by Jonathan Daggerhart <jonathan@daggerhartlab.com>)
+ * @author    Jonathan Daggerhart <jonathan@daggerhartlab.com>
  * @copyright 2015-2023 daggerhart
  * @license   http://www.gnu.org/licenses/gpl-2.0.txt GPL-2.0+
  * @link      https://github.com/oidc-wp
@@ -19,7 +19,7 @@
  * Version:           3.11.5-dlam
  * Requires at least: 6.7
  * Requires PHP:      8.2
- * Author:            daggerhart
+ * Author:            UoE DLAM (based on work by daggerhart)
  * Author URI:        https://www.daggerhartlab.com
  * Text Domain:       daggerhart-openid-connect-generic
  * Domain Path:       /languages
