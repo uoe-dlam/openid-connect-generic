@@ -7,7 +7,7 @@
  *
  * @package   OpenID_Connect_Generic
  * @category  General
- * @author    Jonathan Daggerhart <jonathan@daggerhartlab.com>
+ * @author    UoE DLAM (based on work by Jonathan Daggerhart <jonathan@daggerhartlab.com>)
  * @copyright 2015-2023 daggerhart
  * @license   http://www.gnu.org/licenses/gpl-2.0.txt GPL-2.0+
  * @link      https://github.com/oidc-wp
@@ -16,7 +16,7 @@
  * Plugin Name:       OpenID Connect Generic (UoE DLAM version)
  * Plugin URI:
  * Description:       Modified version of the Jonathan Daggerhart's OpenID Connect Generic plugin to support UoE Wordpress multisite Blogging platform.
- * Version:           3.11.5
+ * Version:           3.11.5-dlam
  * Requires at least: 6.7
  * Requires PHP:      8.2
  * Author:            daggerhart
