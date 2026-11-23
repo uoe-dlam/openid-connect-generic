@@ -42,7 +42,7 @@ Please remember to run:
 
 To get plug-in build for the WordPress please run:
 
-- `npm run grunt build-dist`
+- `npm run build-dist`
 
 This will then update the content of the `dist` directory with the latest changes.
 

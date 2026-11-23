@@ -28,7 +28,7 @@ jobs:
               run: npm ci
 
             - name: Build Release into dist/
-              run: npm run release
+              run: npm run build-dist
 
             - name: Create ZIP
               run: |
