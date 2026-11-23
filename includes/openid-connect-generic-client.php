@@ -245,6 +245,15 @@ class OpenID_Connect_Generic_Client {
 	}
 
 	/**
+	 * Provide the configured scope requested from the IDP.
+	 *
+	 * @return string
+	 */
+	public function get_scope() {
+		return $this->scope;
+	}
+
+	/**
 	 * Validate the request for login authentication
 	 *
 	 * @param array<string> $request The authentication request results.
@@ -323,7 +332,6 @@ class OpenID_Connect_Generic_Client {
 				'client_secret' => $this->client_secret,
 				'redirect_uri'  => $this->redirect_uri,
 				'grant_type'    => 'authorization_code',
-				'scope'         => $this->scope,
 			),
 			'headers' => array( 'Host' => $host ),
 		);
@@ -981,7 +989,8 @@ class OpenID_Connect_Generic_Client {
 				return new WP_Error( 'missing-iss', __( 'Token missing issuer claim.', 'daggerhart-openid-connect-generic' ), $id_token_claim );
 			}
 
-			if ( rtrim( $id_token_claim['iss'], '/' ) !== rtrim( $expected_issuer, '/' ) ) {
+			$tid = isset( $id_token_claim['tid'] ) ? $id_token_claim['tid'] : null;
+			if ( ! OpenID_Connect_Generic_JWT_Validator::issuer_matches( $id_token_claim['iss'], $expected_issuer, $tid ) ) {
 				$this->logger->log(
 					sprintf(
 						'Issuer mismatch - Expected: "%s", Received: "%s". Configure the correct issuer in Settings > OpenID Connect Client > Issuer field, or via the OIDC_ISSUER constant.',
@@ -1056,7 +1065,8 @@ class OpenID_Connect_Generic_Client {
 		}
 
 		// Make sure the id_token sub equals the user_claim sub, according to spec.
-		if ( strval( $id_token_claim['sub'] ) !== strval( $user_claim['sub'] ) ) {
+		$id_token_sub = $this->get_sub_as_string( $id_token_claim );
+		if ( '' === $id_token_sub || $id_token_sub !== $this->get_sub_as_string( $user_claim ) ) {
 			return new WP_Error( 'incorrect-user-claim', __( 'Incorrect user claim.', 'daggerhart-openid-connect-generic' ), func_get_args() );
 		}
 
@@ -1068,6 +1078,28 @@ class OpenID_Connect_Generic_Client {
 		}
 
 		return true;
+	}
+
+	/**
+	 * Get a claim set's sub as a string.
+	 *
+	 * Some IDPs send a numeric sub as an integer in one response and a string
+	 * in another. Any other type counts as missing.
+	 *
+	 * @param mixed $claim The claim set.
+	 *
+	 * @return string The sub, or an empty string if it is missing or not a string or integer.
+	 */
+	private function get_sub_as_string( $claim ) {
+		if ( ! is_array( $claim ) || ! isset( $claim['sub'] ) ) {
+			return '';
+		}
+
+		if ( is_int( $claim['sub'] ) ) {
+			return (string) $claim['sub'];
+		}
+
+		return is_string( $claim['sub'] ) ? $claim['sub'] : '';
 	}
 
 	/**

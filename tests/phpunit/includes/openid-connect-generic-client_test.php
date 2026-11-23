@@ -293,18 +293,90 @@ class OpenID_Connect_Generic_Client_Test extends WP_UnitTestCase {
 	}
 
 	/**
-	 * Test validate_user_claim accepts an integer userinfo sub equal to the id_token sub.
+	 * Test validate_id_token_claim with the Entra multitenant {tenantid} issuer.
 	 *
 	 * @group ClientTests
+	 * @group IssuerValidation
 	 */
-	public function test_validate_user_claim_with_integer_sub() {
-		$client = $this->create_client();
+	public function test_validate_id_token_claim_with_tenantid_issuer() {
+		$client = $this->create_client(
+			array(
+				'endpoint_login' => 'https://login.microsoftonline.com/organizations/oauth2/v2.0/authorize',
+				'issuer'         => 'https://login.microsoftonline.com/{tenantid}/v2.0',
+			)
+		);
 
-		$this->assertTrue( $client->validate_user_claim( array( 'sub' => 35 ), array( 'sub' => '35' ) ) );
+		$tid = '72f988bf-86f1-41af-91ab-2d7cd011db47';
+		$id_token_claim = array(
+			'sub' => 'user123',
+			'iss' => "https://login.microsoftonline.com/$tid/v2.0",
+			'tid' => $tid,
+			'aud' => 'test_client',
+			'exp' => time() + 3600,
+			'iat' => time(),
+		);
 
-		$result = $client->validate_user_claim( array( 'sub' => 36 ), array( 'sub' => '35' ) );
+		$this->assertTrue( $client->validate_id_token_claim( $id_token_claim ) );
+
+		$id_token_claim['tid'] = '9188040d-6c67-4c5b-b112-36a304b66dad';
+		$result = $client->validate_id_token_claim( $id_token_claim );
 		$this->assertWPError( $result );
-		$this->assertSame( 'incorrect-user-claim', $result->get_error_code() );
+		$this->assertSame( 'invalid-iss', $result->get_error_code() );
+
+		unset( $id_token_claim['tid'] );
+		$result = $client->validate_id_token_claim( $id_token_claim );
+		$this->assertWPError( $result );
+		$this->assertSame( 'invalid-iss', $result->get_error_code() );
+	}
+
+	/**
+	 * Test validate_user_claim compares the userinfo sub with the id_token sub.
+	 *
+	 * @group ClientTests
+	 *
+	 * @dataProvider user_claim_sub_provider
+	 *
+	 * @param array $user_claim     The userinfo claims.
+	 * @param array $id_token_claim The id_token claims.
+	 * @param bool  $valid          Whether the claims should match.
+	 */
+	public function test_validate_user_claim_sub( $user_claim, $id_token_claim, $valid ) {
+		$client = $this->create_client();
+		$result = $client->validate_user_claim( $user_claim, $id_token_claim );
+
+		if ( $valid ) {
+			$this->assertTrue( $result );
+		} else {
+			$this->assertWPError( $result );
+			$this->assertSame( 'incorrect-user-claim', $result->get_error_code() );
+		}
+	}
+
+	/**
+	 * Data provider for test_validate_user_claim_sub.
+	 *
+	 * @return array
+	 */
+	public function user_claim_sub_provider() {
+		return array(
+			'same string'                => array( array( 'sub' => 'abc' ), array( 'sub' => 'abc' ), true ),
+			'integer userinfo sub'       => array( array( 'sub' => 35 ), array( 'sub' => '35' ), true ),
+			'integer id_token sub'       => array( array( 'sub' => '35' ), array( 'sub' => 35 ), true ),
+			'same integer'               => array( array( 'sub' => 35 ), array( 'sub' => 35 ), true ),
+			'different strings'          => array( array( 'sub' => 'abc' ), array( 'sub' => 'xyz' ), false ),
+			'different integers'         => array( array( 'sub' => 36 ), array( 'sub' => '35' ), false ),
+			'leading zero'               => array( array( 'sub' => 35 ), array( 'sub' => '035' ), false ),
+			'different case'             => array( array( 'sub' => 'ABC' ), array( 'sub' => 'abc' ), false ),
+			'userinfo sub missing'       => array( array(), array( 'sub' => 'abc' ), false ),
+			'id_token sub missing'       => array( array( 'sub' => 'abc' ), array(), false ),
+			'both empty strings'         => array( array( 'sub' => '' ), array( 'sub' => '' ), false ),
+			'both null'                  => array( array( 'sub' => null ), array( 'sub' => null ), false ),
+			'boolean true and "1"'       => array( array( 'sub' => true ), array( 'sub' => '1' ), false ),
+			'both false'                 => array( array( 'sub' => false ), array( 'sub' => false ), false ),
+			'float userinfo sub'         => array( array( 'sub' => 35.0 ), array( 'sub' => '35' ), false ),
+			'array userinfo sub'         => array( array( 'sub' => array( 'abc' ) ), array( 'sub' => 'abc' ), false ),
+			'both arrays'                => array( array( 'sub' => array( 'abc' ) ), array( 'sub' => array( 'abc' ) ), false ),
+		);
 	}
 
 	/**
@@ -677,6 +749,53 @@ class OpenID_Connect_Generic_Client_Test extends WP_UnitTestCase {
 		$client->new_nonce( $state );
 
 		$this->assertTrue( $client->validate_id_token_nonce( array( 'sub' => 'user' ), $state ) );
+	}
+
+	/**
+	 * The token request doesn't send scope, and a filter can add it back for providers that need it.
+	 *
+	 * @group ClientTests
+	 */
+	public function test_token_request_omits_scope() {
+		$client = $this->create_client( array( 'scope' => 'openid email profile' ) );
+
+		$sent_body = null;
+		$capture = static function ( $request, $operation ) use ( &$sent_body ) {
+			if ( 'get-authentication-token' === $operation ) {
+				$sent_body = $request['body'];
+			}
+			return $request;
+		};
+		$respond = static function () {
+			return array(
+				'headers'  => array(),
+				'body'     => '{}',
+				'response' => array( 'code' => 200, 'message' => 'OK' ),
+				'cookies'  => array(),
+			);
+		};
+		add_filter( 'openid-connect-generic-alter-request', $capture, 10, 2 );
+		add_filter( 'pre_http_request', $respond );
+
+		$this->assertSame( 'openid email profile', $client->get_scope() );
+
+		$client->request_authentication_token( 'auth-code' );
+		$this->assertArrayNotHasKey( 'scope', $sent_body );
+		$this->assertSame( 'authorization_code', $sent_body['grant_type'] );
+
+		$add_scope = static function ( $request, $operation ) {
+			if ( 'get-authentication-token' === $operation ) {
+				$request['body']['scope'] = 'openid email profile';
+			}
+			return $request;
+		};
+		add_filter( 'openid-connect-generic-alter-request', $add_scope, 5, 2 );
+		$client->request_authentication_token( 'auth-code' );
+		$this->assertSame( 'openid email profile', $sent_body['scope'] );
+
+		remove_filter( 'openid-connect-generic-alter-request', $add_scope, 5 );
+		remove_filter( 'openid-connect-generic-alter-request', $capture, 10 );
+		remove_filter( 'pre_http_request', $respond );
 	}
 
 	/**
