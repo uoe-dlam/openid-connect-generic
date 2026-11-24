@@ -27,13 +27,6 @@ jobs:
             - name: Build Release into dist/
               run: npm run build-dist
 
-            - name: Debug dist structure
-              run: |
-                  echo "=== repo root ==="
-                  ls -la
-                  echo "=== dist (2 poziomy) ==="
-                  find dist -maxdepth 2 | sort
-
             - name: Create ZIP
               run: |
                   PLUGIN_SLUG="daggerhart-openid-connect-generic"
@@ -41,9 +34,6 @@ jobs:
                   mkdir -p /tmp/package/$PLUGIN_SLUG
                   cp -r dist/. /tmp/package/$PLUGIN_SLUG/
                   cd /tmp/package && zip -r $GITHUB_WORKSPACE/$PLUGIN_SLUG.zip $PLUGIN_SLUG
-
-            - name: Debug ZIP content
-              run: unzip -l daggerhart-openid-connect-generic.zip | head -50
 
             - name: Upload ZIP
               uses: softprops/action-gh-release@v2
