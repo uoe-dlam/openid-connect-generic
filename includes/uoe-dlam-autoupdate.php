@@ -23,21 +23,3 @@ $myUpdateChecker->getVcsApi()->enableReleaseAssets();
 if ( defined( 'UOE_DLAM_BLOGS_PAT' ) && is_string( UOE_DLAM_BLOGS_PAT ) && '' !== UOE_DLAM_BLOGS_PAT ) {
 	$myUpdateChecker->setAuthentication( UOE_DLAM_BLOGS_PAT );
 }
-
-
-add_action( 'admin_notices', function () {
-    if ( ! current_user_can( 'manage_options' ) ) {
-        return;
-    }
-    $updates = get_site_transient( 'update_plugins' );
-    foreach ( ( $updates->response ?? [] ) as $file => $data ) {
-        if ( str_contains( $file, 'dd-plugin-name' ) ) {
-            echo '<div class="notice notice-warning"><pre>';
-            echo 'Plugin file: ' . esc_html( $file ) . "\n";
-            echo 'Slug: ' . esc_html( $data->slug ?? 'brak' ) . "\n";
-            echo 'New version: ' . esc_html( $data->new_version ?? 'brak' ) . "\n";
-            echo 'Package URL: ' . esc_html( $data->package ?? 'brak' ) . "\n";
-            echo '</pre></div>';
-        }
-    }
-} );
