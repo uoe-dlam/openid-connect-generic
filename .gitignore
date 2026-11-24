@@ -56,3 +56,4 @@ dist
 # WordPress installed by Composer for the test suite.
 tools/local-env/wp
 
+daggerhart-openid-connect-generic.zip
